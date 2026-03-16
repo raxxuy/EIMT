@@ -1,12 +1,12 @@
 package mk.ukim.finki.emc.lab.service.domain.impl;
 
 import mk.ukim.finki.emc.lab.model.domain.Country;
+import mk.ukim.finki.emc.lab.model.exception.CountryNotFoundException;
 import mk.ukim.finki.emc.lab.repository.CountryRepository;
 import mk.ukim.finki.emc.lab.service.domain.CountryService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CountryServiceImpl implements CountryService {
@@ -17,8 +17,10 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
-    public Optional<Country> findById(Long id) {
-        return countryRepository.findById(id);
+    public Country findById(Long id) {
+        return countryRepository
+                .findById(id)
+                .orElseThrow(() -> new CountryNotFoundException(id));
     }
 
     @Override
@@ -32,20 +34,17 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
-    public Optional<Country> update(Long id, Country country) {
-        return countryRepository
-                .findById(id)
-                .map(existing -> {
-                    existing.setName(country.getName());
-                    existing.setContinent(country.getContinent());
-                    return countryRepository.save(existing);
-                });
+    public Country update(Long id, Country country) {
+        Country existing = findById(id);
+        existing.setName(country.getName());
+        existing.setContinent(country.getContinent());
+        return countryRepository.save(existing);
     }
 
     @Override
-    public Optional<Country> deleteById(Long id) {
-        Optional<Country> country = countryRepository.findById(id);
-        country.ifPresent(countryRepository::delete);
+    public Country deleteById(Long id) {
+        Country country = findById(id);
+        countryRepository.delete(country);
         return country;
     }
 }

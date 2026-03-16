@@ -3,18 +3,17 @@ package mk.ukim.finki.emc.lab.service.domain;
 import mk.ukim.finki.emc.lab.model.domain.Accommodation;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface AccommodationService {
-    Optional<Accommodation> findById(Long id);
+    Accommodation findById(Long id);
 
     List<Accommodation> findAll();
 
     Accommodation create(Accommodation accommodation);
 
-    Optional<Accommodation> update(Long id, Accommodation accommodation);
+    Accommodation update(Long id, Accommodation accommodation);
 
-    Optional<Accommodation> deleteById(Long id);
+    Accommodation deleteById(Long id);
 
     Accommodation markAsRented(Long id);
 }

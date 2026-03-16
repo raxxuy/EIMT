@@ -20,10 +20,7 @@ public class CountryController {
 
     @GetMapping("/{id}")
     public ResponseEntity<DisplayCountryDto> findById(@PathVariable Long id) {
-        return countryApplicationService
-                .findById(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        return ResponseEntity.ok(countryApplicationService.findById(id));
     }
 
     @GetMapping
@@ -41,17 +38,11 @@ public class CountryController {
             @PathVariable Long id,
             @RequestBody CreateCountryDto createCountryDto
     ) {
-        return countryApplicationService
-                .update(id, createCountryDto)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        return ResponseEntity.ok(countryApplicationService.update(id, createCountryDto));
     }
 
     @DeleteMapping("/{id}/delete")
     public ResponseEntity<DisplayCountryDto> deleteById(@PathVariable Long id) {
-        return countryApplicationService
-                .deleteById(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        return ResponseEntity.ok(countryApplicationService.deleteById(id));
     }
 }

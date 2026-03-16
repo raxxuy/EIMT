@@ -20,10 +20,7 @@ public class AccommodationController {
 
     @GetMapping("/{id}")
     public ResponseEntity<DisplayAccommodationDto> findById(@PathVariable Long id) {
-        return accommodationApplicationService
-                .findById(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        return ResponseEntity.ok(accommodationApplicationService.findById(id));
     }
 
     @GetMapping
@@ -41,18 +38,12 @@ public class AccommodationController {
             @PathVariable Long id,
             @RequestBody CreateAccommodationDto createAccommodationDto
     ) {
-        return accommodationApplicationService
-                .update(id, createAccommodationDto)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        return ResponseEntity.ok(accommodationApplicationService.update(id, createAccommodationDto));
     }
 
     @DeleteMapping("/{id}/delete")
     public ResponseEntity<DisplayAccommodationDto> deleteById(@PathVariable Long id) {
-        return accommodationApplicationService
-                .deleteById(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        return ResponseEntity.ok(accommodationApplicationService.deleteById(id));
     }
 
     @PatchMapping("/{id}/rent")

@@ -7,7 +7,6 @@ import mk.ukim.finki.emc.lab.service.domain.CountryService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CountryApplicationServiceImpl implements CountryApplicationService {
@@ -18,10 +17,8 @@ public class CountryApplicationServiceImpl implements CountryApplicationService 
     }
 
     @Override
-    public Optional<DisplayCountryDto> findById(Long id) {
-        return countryService
-                .findById(id)
-                .map(DisplayCountryDto::from);
+    public DisplayCountryDto findById(Long id) {
+        return DisplayCountryDto.from(countryService.findById(id));
     }
 
     @Override
@@ -35,16 +32,12 @@ public class CountryApplicationServiceImpl implements CountryApplicationService 
     }
 
     @Override
-    public Optional<DisplayCountryDto> update(Long id, CreateCountryDto createCountryDto) {
-        return countryService
-                .update(id, createCountryDto.toCountry())
-                .map(DisplayCountryDto::from);
+    public DisplayCountryDto update(Long id, CreateCountryDto createCountryDto) {
+        return DisplayCountryDto.from(countryService.update(id, createCountryDto.toCountry()));
     }
 
     @Override
-    public Optional<DisplayCountryDto> deleteById(Long id) {
-        return countryService
-                .deleteById(id)
-                .map(DisplayCountryDto::from);
+    public DisplayCountryDto deleteById(Long id) {
+        return DisplayCountryDto.from(countryService.deleteById(id));
     }
 }

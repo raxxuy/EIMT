@@ -1,12 +1,12 @@
 package mk.ukim.finki.emc.lab.service.domain.impl;
 
 import mk.ukim.finki.emc.lab.model.domain.Host;
+import mk.ukim.finki.emc.lab.model.exception.HostNotFoundException;
 import mk.ukim.finki.emc.lab.repository.HostRepository;
 import mk.ukim.finki.emc.lab.service.domain.HostService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class HostServiceImpl implements HostService {
@@ -17,8 +17,10 @@ public class HostServiceImpl implements HostService {
     }
 
     @Override
-    public Optional<Host> findById(Long id) {
-        return hostRepository.findById(id);
+    public Host findById(Long id) {
+        return hostRepository
+                .findById(id)
+                .orElseThrow(() -> new HostNotFoundException(id));
     }
 
     @Override
@@ -32,21 +34,18 @@ public class HostServiceImpl implements HostService {
     }
 
     @Override
-    public Optional<Host> update(Long id, Host host) {
-        return hostRepository
-                .findById(id)
-                .map(existing -> {
-                    existing.setName(host.getName());
-                    existing.setSurname(host.getSurname());
-                    existing.setCountry(host.getCountry());
-                    return hostRepository.save(existing);
-                });
+    public Host update(Long id, Host host) {
+        Host existing = findById(id);
+        existing.setName(host.getName());
+        existing.setSurname(host.getSurname());
+        existing.setCountry(host.getCountry());
+        return hostRepository.save(existing);
     }
 
     @Override
-    public Optional<Host> deleteById(Long id) {
-        Optional<Host> host = hostRepository.findById(id);
-        host.ifPresent(hostRepository::delete);
+    public Host deleteById(Long id) {
+        Host host = findById(id);
+        hostRepository.delete(host);
         return host;
     }
 }

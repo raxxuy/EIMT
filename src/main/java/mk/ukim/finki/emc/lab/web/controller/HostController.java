@@ -20,10 +20,7 @@ public class HostController {
 
     @GetMapping("/{id}")
     public ResponseEntity<DisplayHostDto> findById(@PathVariable Long id) {
-        return hostApplicationService
-                .findById(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        return ResponseEntity.ok(hostApplicationService.findById(id));
     }
 
     @GetMapping
@@ -41,17 +38,11 @@ public class HostController {
             @PathVariable Long id,
             @RequestBody CreateHostDto createHostDto
     ) {
-        return hostApplicationService
-                .update(id, createHostDto)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        return ResponseEntity.ok(hostApplicationService.update(id, createHostDto));
     }
 
     @DeleteMapping("/{id}/delete")
     public ResponseEntity<DisplayHostDto> deleteById(@PathVariable Long id) {
-        return hostApplicationService
-                .deleteById(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        return ResponseEntity.ok(hostApplicationService.deleteById(id));
     }
 }

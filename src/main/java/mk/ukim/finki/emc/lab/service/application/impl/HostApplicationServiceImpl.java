@@ -3,14 +3,12 @@ package mk.ukim.finki.emc.lab.service.application.impl;
 import mk.ukim.finki.emc.lab.model.domain.Country;
 import mk.ukim.finki.emc.lab.model.dto.CreateHostDto;
 import mk.ukim.finki.emc.lab.model.dto.DisplayHostDto;
-import mk.ukim.finki.emc.lab.model.exception.CountryNotFoundException;
 import mk.ukim.finki.emc.lab.service.application.HostApplicationService;
 import mk.ukim.finki.emc.lab.service.domain.CountryService;
 import mk.ukim.finki.emc.lab.service.domain.HostService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class HostApplicationServiceImpl implements HostApplicationService {
@@ -23,10 +21,8 @@ public class HostApplicationServiceImpl implements HostApplicationService {
     }
 
     @Override
-    public Optional<DisplayHostDto> findById(Long id) {
-        return hostService
-                .findById(id)
-                .map(DisplayHostDto::from);
+    public DisplayHostDto findById(Long id) {
+        return DisplayHostDto.from(hostService.findById(id));
     }
 
     @Override
@@ -36,26 +32,18 @@ public class HostApplicationServiceImpl implements HostApplicationService {
 
     @Override
     public DisplayHostDto create(CreateHostDto createHostDto) {
-        Country country = countryService
-                .findById(createHostDto.countryId())
-                .orElseThrow(() -> new CountryNotFoundException(createHostDto.countryId()));
+        Country country = countryService.findById(createHostDto.countryId());
         return DisplayHostDto.from(hostService.create(createHostDto.toHost(country)));
     }
 
     @Override
-    public Optional<DisplayHostDto> update(Long id, CreateHostDto createHostDto) {
-        Country country = countryService
-                .findById(createHostDto.countryId())
-                .orElseThrow(() -> new CountryNotFoundException(createHostDto.countryId()));
-        return hostService
-                .update(id, createHostDto.toHost(country))
-                .map(DisplayHostDto::from);
+    public DisplayHostDto update(Long id, CreateHostDto createHostDto) {
+        Country country = countryService.findById(createHostDto.countryId());
+        return DisplayHostDto.from(hostService.update(id, createHostDto.toHost(country)));
     }
 
     @Override
-    public Optional<DisplayHostDto> deleteById(Long id) {
-        return hostService
-                .deleteById(id)
-                .map(DisplayHostDto::from);
+    public DisplayHostDto deleteById(Long id) {
+        return DisplayHostDto.from(hostService.deleteById(id));
     }
 }
