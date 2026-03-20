@@ -3,6 +3,7 @@ package mk.ukim.finki.emc.lab.web.controller;
 import jakarta.validation.Valid;
 import mk.ukim.finki.emc.lab.model.dto.CreateAccommodationDto;
 import mk.ukim.finki.emc.lab.model.dto.DisplayAccommodationDto;
+import mk.ukim.finki.emc.lab.model.dto.DisplayReviewDto;
 import mk.ukim.finki.emc.lab.service.application.AccommodationApplicationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,11 @@ public class AccommodationController {
     @GetMapping("/{id}")
     public ResponseEntity<DisplayAccommodationDto> findById(@PathVariable Long id) {
         return ResponseEntity.ok(accommodationApplicationService.findById(id));
+    }
+
+    @GetMapping("/{id}/reviews")
+    public ResponseEntity<List<DisplayReviewDto>> findAllReviews(@PathVariable Long id) {
+        return ResponseEntity.ok(accommodationApplicationService.findAllReviews(id));
     }
 
     @GetMapping
