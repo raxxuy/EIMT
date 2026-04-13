@@ -5,7 +5,7 @@ import mk.ukim.finki.emc.lab.model.enums.AccommodationCategory;
 import mk.ukim.finki.emc.lab.model.enums.AccommodationCondition;
 
 import java.util.List;
-import java.util.stream.IntStream;
+import java.util.function.Function;
 
 public record DisplayAccommodationDto(
         Long id,
@@ -32,9 +32,9 @@ public record DisplayAccommodationDto(
         );
     }
 
-    public static List<DisplayAccommodationDto> from(List<Accommodation> accommodations, List<Double> averageRatings) {
-        return IntStream.range(0, accommodations.size())
-                .mapToObj(i -> from(accommodations.get(i), averageRatings.get(i)))
+    public static List<DisplayAccommodationDto> from(List<Accommodation> accommodations, Function<Long, Double> averageRatingLookup) {
+        return accommodations.stream()
+                .map(a -> DisplayAccommodationDto.from(a, averageRatingLookup.apply(a.getId())))
                 .toList();
     }
 }

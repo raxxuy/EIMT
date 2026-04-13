@@ -33,33 +33,28 @@ public class AccommodationApplicationServiceImpl implements AccommodationApplica
 
     @Override
     public List<DisplayAccommodationDto> findAll() {
-        List<Accommodation> accommodations = accommodationService.findAll();
-        List<Double> averageRatings = accommodations
-                .stream()
-                .map(accommodation -> reviewService.findAverageRatingByAccommodationId(accommodation.getId()))
-                .toList();
-
-        return DisplayAccommodationDto.from(accommodations, averageRatings);
+        return DisplayAccommodationDto.from(accommodationService.findAll(), reviewService::findAverageRatingByAccommodationId);
     }
 
     @Override
     public List<DisplayReviewDto> findAllReviews(Long id) {
-        return DisplayReviewDto.from(accommodationService.findAllReviews(id));
+        return DisplayReviewDto.from(reviewService.findAllByAccommodationId(id));
     }
 
     @Override
     public DisplayAccommodationDto create(CreateAccommodationDto createAccommodationDto) {
         Host host = hostService.findById(createAccommodationDto.hostId());
-        Accommodation accommodation = createAccommodationDto.toAccommodation(host);
-        return DisplayAccommodationDto.from(accommodationService.create(accommodation), 0.0);
+        Accommodation accommodation = accommodationService.create(createAccommodationDto.toAccommodation(host));
+        Double averageRating = reviewService.findAverageRatingByAccommodationId(accommodation.getId());
+        return DisplayAccommodationDto.from(accommodation, averageRating);
     }
 
     @Override
     public DisplayAccommodationDto update(Long id, CreateAccommodationDto createAccommodationDto) {
         Host host = hostService.findById(createAccommodationDto.hostId());
-        Accommodation accommodation = createAccommodationDto.toAccommodation(host);
-        Double averageRating = reviewService.findAverageRatingByAccommodationId(accommodation.getId());
-        return DisplayAccommodationDto.from(accommodationService.update(id, createAccommodationDto.toAccommodation(host)), averageRating);
+        Accommodation accommodation = accommodationService.update(id, createAccommodationDto.toAccommodation(host));
+        Double averageRating = reviewService.findAverageRatingByAccommodationId(id);
+        return DisplayAccommodationDto.from(accommodation, averageRating);
     }
 
     @Override

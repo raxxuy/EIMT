@@ -35,8 +35,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public Double findAverageRatingByAccommodationId(Long accommodationId) {
-        List<Review> reviews = findAllByAccommodationId(accommodationId);
-        return reviews.stream().mapToDouble(Review::getRating).average().orElse(0.0);
+        return reviewRepository.findAverageRatingByAccommodationId(accommodationId).orElse(0.0);
     }
 
     @Override
