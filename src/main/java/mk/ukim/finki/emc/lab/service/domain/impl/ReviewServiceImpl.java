@@ -37,25 +37,4 @@ public class ReviewServiceImpl implements ReviewService {
     public Double findAverageRatingByAccommodationId(Long accommodationId) {
         return reviewRepository.findAverageRatingByAccommodationId(accommodationId).orElse(0.0);
     }
-
-    @Override
-    public Review create(Review review) {
-        return reviewRepository.save(review);
-    }
-
-    @Override
-    public Review update(Long id, Review review) {
-        Review existing = findById(id);
-        existing.setComment(review.getComment());
-        existing.setRating(review.getRating());
-        existing.setAccommodation(review.getAccommodation());
-        return reviewRepository.save(existing);
-    }
-
-    @Override
-    public Review deleteById(Long id) {
-        Review existing = findById(id);
-        reviewRepository.delete(existing);
-        return existing;
-    }
 }

@@ -27,25 +27,5 @@ public class CountryServiceImpl implements CountryService {
     public List<Country> findAll() {
         return countryRepository.findAll();
     }
-
-    @Override
-    public Country create(Country country) {
-        return countryRepository.save(country);
-    }
-
-    @Override
-    public Country update(Long id, Country country) {
-        Country existing = findById(id);
-        existing.setName(country.getName());
-        existing.setContinent(country.getContinent());
-        return countryRepository.save(existing);
-    }
-
-    @Override
-    public Country deleteById(Long id) {
-        Country country = findById(id);
-        countryRepository.delete(country);
-        return country;
-    }
 }
 

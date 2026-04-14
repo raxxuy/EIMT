@@ -8,10 +8,4 @@ public interface HostService {
     Host findById(Long id);
 
     List<Host> findAll();
-
-    Host create(Host host);
-
-    Host update(Long id, Host host);
-
-    Host deleteById(Long id);
 }

@@ -8,10 +8,4 @@ public interface CountryService {
     Country findById(Long id);
 
     List<Country> findAll();
-
-    Country create(Country country);
-
-    Country update(Long id, Country country);
-
-    Country deleteById(Long id);
 }

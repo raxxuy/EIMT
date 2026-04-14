@@ -12,10 +12,4 @@ public interface ReviewService {
     List<Review> findAllByAccommodationId(Long accommodationId);
 
     Double findAverageRatingByAccommodationId(Long accommodationId);
-
-    Review create(Review review);
-
-    Review update(Long id, Review review);
-
-    Review deleteById(Long id);
 }

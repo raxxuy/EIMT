@@ -12,6 +12,17 @@ import mk.ukim.finki.emc.lab.model.enums.AccommodationCondition;
 @Setter
 @NoArgsConstructor
 @Table(name = "accommodations")
+@NamedEntityGraph(
+        name="accommodation-entity-graph",
+        attributeNodes = {
+                @NamedAttributeNode(value = "host", subgraph = "host-entity-graph")
+        },
+        subgraphs = {
+                @NamedSubgraph(name = "host-entity-graph", attributeNodes = {
+                        @NamedAttributeNode("country")
+                })
+        }
+)
 public class Accommodation extends BaseAuditableEntity {
     @Column(nullable = false)
     private String name;

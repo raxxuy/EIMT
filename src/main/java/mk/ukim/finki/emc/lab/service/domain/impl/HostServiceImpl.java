@@ -27,25 +27,4 @@ public class HostServiceImpl implements HostService {
     public List<Host> findAll() {
         return hostRepository.findAll();
     }
-
-    @Override
-    public Host create(Host host) {
-        return hostRepository.save(host);
-    }
-
-    @Override
-    public Host update(Long id, Host host) {
-        Host existing = findById(id);
-        existing.setName(host.getName());
-        existing.setSurname(host.getSurname());
-        existing.setCountry(host.getCountry());
-        return hostRepository.save(existing);
-    }
-
-    @Override
-    public Host deleteById(Long id) {
-        Host host = findById(id);
-        hostRepository.delete(host);
-        return host;
-    }
 }
